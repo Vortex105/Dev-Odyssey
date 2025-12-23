@@ -8,6 +8,7 @@ const projectSchema = new mongoose.Schema({
 		default: 'active',
 	},
 	reason: { type: String },
+	repoUrl: { type: String },
 	startedAt: { type: Date, default: Date.now },
 	endedAt: { type: Date },
 });

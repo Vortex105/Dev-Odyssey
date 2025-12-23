@@ -28,7 +28,7 @@ app.use('/api/projects', projectRoutes);
 // });
 
 app.get('/', (req, res) => {
-	res.send('Dev Odyssey backend is running with modern import!');
+	res.json({ message: 'Dev Odyssey backend is running with modern import!' });
 });
 
 app.listen(PORT, () => {
