@@ -4,21 +4,24 @@ import { motion } from "framer-motion";
 const ProjectCard = ({ project }) => {
   return (
     <motion.div
-      whileHover={{ y: -2, boxShadow: "0 8px 20px rgba(0,0,0,0.12)" }}
-      transition={{ duration: 0.2 }}
-      className="bg-surface-primary rounded-lg shadow-sm p-4 flex justify-between items-center cursor-pointer"
+      whileHover={{ y: -5, boxShadow: "0 12px 30px rgba(0,0,0,0.15)" }}
+      transition={{ duration: 0.3 }}
+      className="bg-white rounded-xl shadow-md p-5 flex justify-between items-center cursor-pointer border border-gray-100 hover:border-gray-300 transition-all duration-300"
     >
       {/* Left: Project info */}
       <div className="flex flex-col">
-        <h3 className="text-lg font-semibold text-text-default">{project.title}</h3>
-        {project.repoURL && (
+        <h3 className="text-lg font-semibold text-gray-800">{project.title}</h3>
+        {project.repoUrl && (
           <a
-            href={project.repoURL}
+            href={project.repoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-text-muted hover:text-text-default text-sm mt-1"
+            className="text-blue-600 hover:text-blue-800 text-sm mt-1 flex items-center"
           >
-            View Repo
+            <span>View Repo</span>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
           </a>
         )}
       </div>
@@ -27,20 +30,17 @@ const ProjectCard = ({ project }) => {
       <motion.span
         animate={{ scale: [1, 1.05, 1] }}
         transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 2 }}
-        className={`px-3 py-1 rounded-full text-xs font-semibold
-          ${
-            project.status === "active"
-              ? "bg-status-active-bg text-status-active-text"
-              : project.status === "idea"
-              ? "bg-status-idea-bg text-status-idea-text"
-              : project.status === "stale"
-              ? "bg-status-stale-bg text-status-stale-text"
-              : project.status === "blocked"
-              ? "bg-status-blocked-bg text-status-blocked-text"
-              : "bg-status-completed-bg text-status-completed-text"
-          }`}
+        className={`px-3 py-1.5 rounded-full text-xs font-semibold capitalize ${
+          project.status === "active"
+            ? "bg-[#dbeafe] text-[#1d4ed8] border border-[#3b82f6]"
+            : project.status === "paused"
+            ? "bg-[#fef9c3] text-[#854d0e] border border-[#f59e0b]"
+            : project.status === "abandoned"
+            ? "bg-[#fee2e2] text-[#b91c1c] border border-[#ef4444]"
+            : "bg-[#dcfce7] text-[#166534] border border-[#22c55e]"
+        }`}
       >
-        {project.status.charAt(0).toUpperCase() + project.status.slice(1)}
+        {project.status}
       </motion.span>
     </motion.div>
   );

@@ -79,23 +79,27 @@ dev-odyssey/
 
 ---
 
-## ⚠️ Current Limitations
+## ⚠️ Security Features Added
 
-* No user authentication (single‑user focus for now)
-* No activity timeline yet
-* No role‑based access control
-
-These are intentional and planned for future iterations.
+* User authentication (JWT-based)
+* Input validation using express-validator
+* ObjectId validation for route parameters
+* Proper CORS configuration
+* Rate limiting to prevent abuse
+* Security headers using helmet
+* Password hashing using bcrypt
+* Error message sanitization
+* User-specific project isolation
 
 ---
 
 ## 🧭 Roadmap
 
-* User authentication (JWT)
 * Project timelines & milestones
 * Analytics (project lifespan, completion rate)
 * Tags & filters
 * Dark mode
+* Multi-user collaboration features
 
 ---
 
@@ -105,8 +109,42 @@ Dev Odyssey isn’t about tracking everything — it’s about tracking what *ma
 
 ---
 
+## 🔐 Setup Instructions
+
+1. Create a `.env` file in the server directory with the following variables:
+   ```
+   MONGODB_URL=your_mongodb_connection_string
+   JWT_SECRET=your_secret_key_for_jwt_tokens
+   PORT=5000
+   FRONTEND_URL=http://localhost:5173
+   ```
+
+2. Install dependencies in both client and server directories:
+   ```bash
+   # In server directory
+   npm install
+
+   # In client directory
+   npm install
+   ```
+
+3. Start the server:
+   ```bash
+   npm run dev # or node server.js
+   ```
+
+4. Start the client:
+   ```bash
+   cd client
+   npm run dev
+   ```
+
+5. Register a user account via the frontend UI at `http://localhost:5173/register`
+
+---
+
 ## 🏁 Status
 
 Active development 🟢
 
-Built as a learning‑driven, production‑ready MERN project.
+Built as a learning‑driven, production‑ready MERN project with enhanced security.

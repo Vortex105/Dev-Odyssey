@@ -1,64 +1,98 @@
 const BASE_URL = 'http://localhost:5000/api/projects';
 
+// Helper function to get the token from localStorage
+function getAuthToken() {
+  return localStorage.getItem('token');
+}
+
 /**
  * Fetch all projects
  */
 export async function getProjects() {
-	const res = await fetch(BASE_URL);
+  const token = getAuthToken();
 
-	if (!res.ok) {
-		throw new Error('Failed to fetch projects');
-	}
+  const res = await fetch(BASE_URL, {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  });
 
-	return res.json();
+  if (!res.ok) {
+    if (res.status === 401) {
+      throw new Error('Authentication required. Please log in.');
+    }
+    throw new Error('Failed to fetch projects');
+  }
+
+  return res.json();
 }
 
 /**
  * Create a new project
  */
 export async function createProject(projectData) {
-	const res = await fetch(BASE_URL, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(projectData),
-	});
+  const token = getAuthToken();
 
-	if (!res.ok) {
-		throw new Error('Failed to create project');
-	}
+  const res = await fetch(BASE_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify(projectData),
+  });
 
-	return res.json();
+  if (!res.ok) {
+    if (res.status === 401) {
+      throw new Error('Authentication required. Please log in.');
+    }
+    throw new Error('Failed to create project');
+  }
+
+  return res.json();
 }
 
 /**
  * Delete a project
  */
 export async function deleteProject(id) {
-	const res = await fetch(`${BASE_URL}/${id}`, {
-		method: 'DELETE',
-	});
+  const token = getAuthToken();
 
-	if (!res.ok) {
-		throw new Error('Failed to delete project');
-	}
+  const res = await fetch(`${BASE_URL}/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  });
 
-	return res.json();
+  if (!res.ok) {
+    if (res.status === 401) {
+      throw new Error('Authentication required. Please log in.');
+    }
+    throw new Error('Failed to delete project');
+  }
+
+  return res.json();
 }
 
 export async function updateProject(id, updates) {
-	const res = await fetch(`http://localhost:5000/api/projects/${id}`, {
-		method: 'PUT',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(updates),
-	});
+  const token = getAuthToken();
 
-	if (!res.ok) {
-		throw new Error('Failed to update project');
-	}
+  const res = await fetch(`${BASE_URL}/${id}`, {
+    method: 'PATCH', // Changed from PUT to PATCH as per backend implementation
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify(updates),
+  });
 
-	return res.json();
+  if (!res.ok) {
+    if (res.status === 401) {
+      throw new Error('Authentication required. Please log in.');
+    }
+    throw new Error('Failed to update project');
+  }
+
+  return res.json();
 }

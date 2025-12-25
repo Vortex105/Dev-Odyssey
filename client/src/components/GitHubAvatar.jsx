@@ -16,13 +16,13 @@ export default function GitHubAvatar({ repoUrl }) {
         href={repoUrl}
         target="_blank"
         rel="noreferrer"
-        className="flex items-center gap-2"
+        className="flex items-center"
         title={username}
       >
         <img
           src={avatarUrl}
           alt={username}
-          className="w-8 h-8 rounded-full border"
+          className="w-10 h-10 rounded-full border-2 border-white shadow-sm"
         />
       </a>
     );

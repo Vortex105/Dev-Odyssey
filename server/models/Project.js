@@ -11,6 +11,11 @@ const projectSchema = new mongoose.Schema({
 	repoUrl: { type: String },
 	startedAt: { type: Date, default: Date.now },
 	endedAt: { type: Date },
+	userId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User',
+		required: true
+	}, // Associate project with user
 });
 
 const Project = mongoose.model('Project', projectSchema);
