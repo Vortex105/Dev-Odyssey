@@ -64,32 +64,16 @@ export default function ProjectList({ projects, onDelete, onUpdate, onSelect }) 
             >
               <GitHubAvatar repoUrl={project.repoUrl} />
 
-              <div className="flex flex-col">
-                <div className="flex items-center gap-1">
-                  <span className="font-semibold text-gray-800 group-hover:text-blue-600 group-hover:underline transition">
+              <div className="flex flex-col items-start">
+                <div className="p-1 border border-gray-400 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
+                   <div className="flex items-center gap-1 ">
+                  <span className="font-semibold text-gray-800 transition capitalize">
                     {project.title}
                   </span>
-
-                  {/* Chevron = visual affordance */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
                 </div>
 
-                <span className="text-xs text-gray-400 group-hover:text-blue-500 transition">
-                  Click to view details
-                </span>
+                <span className="text-xs text-gray-400">Click to view details</span>
+               </div>
 
                 {project.repoUrl && (
                   <a
