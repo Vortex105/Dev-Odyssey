@@ -13,7 +13,8 @@ const authenticateToken = (req, res, next) => {
 
 	jwt.verify(
 		token,
-		process.env.JWT_SECRET || 'fallback_secret_key',
+		process.env.JWT_SECRET,
+		// process.env.JWT_SECRET || 'fallback_secret_key',
 		(err, user) => {
 			if (err) {
 				return res.status(403).json({ error: 'Invalid or expired token' });

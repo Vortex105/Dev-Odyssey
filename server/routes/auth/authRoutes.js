@@ -44,7 +44,8 @@ router.post(
 
 			const token = jwt.sign(
 				{ id: user._id, username: user.username },
-				process.env.JWT_SECRET || 'fallback_secret_key',
+				// process.env.JWT_SECRET || 'fallback_secret_key',
+				process.env.JWT_SECRET,
 				{ expiresIn: '7d' }
 			);
 			console.log('Token generated');
@@ -92,7 +93,8 @@ router.post(
 			// Generate JWT token
 			const token = jwt.sign(
 				{ id: user._id, username: user.username },
-				process.env.JWT_SECRET || 'fallback_secret_key',
+				// process.env.JWT_SECRET || 'fallback_secret_key',
+				process.env.JWT_SECRET,
 				{ expiresIn: '7d' }
 			);
 

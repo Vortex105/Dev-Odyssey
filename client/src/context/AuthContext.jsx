@@ -5,6 +5,8 @@ import React, {
   useEffect,
 } from 'react';
 
+dotenv.config();
+
 const AuthContext = createContext();
 
 export const useAuth = () => {
@@ -24,6 +26,8 @@ export const AuthProvider = ({ children }) => {
   );
   const [loading, setLoading] = useState(true);
 
+  const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
+
   useEffect(() => {
     // Check if user is logged in on initial load
     const storedToken = localStorage.getItem('token');
@@ -39,7 +43,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await fetch(
-        'http://localhost:5000/api/auth/login',
+        `${backendUrl}/api/auth/login`,
         {
           method: 'POST',
           headers: {
@@ -77,7 +81,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (username, email, password) => {
     try {
       const response = await fetch(
-        'http://localhost:5000/api/auth/register',
+        `${backendUrl}/api/auth/register`,
         {
           method: 'POST',
           headers: {

@@ -48,7 +48,7 @@ export default function ProjectSidebar({ project, isOpen, onClose, onUpdate }) {
                 <h2 className="text-xl font-bold text-gray-800 mb-1">{project.title}</h2>
                 <div className={`inline-block px-3 py-1 rounded-full text-sm font-medium capitalize ${
                   project.status === "active"
-                    ? "bg-[#dbeafe] text-[#1d4ed8] border border-[#3b82f6]"
+                    ? "bg-status-active-bg text-[#1d4ed8] border border-[#3b82f6]"
                     : project.status === "paused"
                     ? "bg-[#fef9c3] text-[#854d0e] border border-[#f59e0b]"
                     : project.status === "abandoned"
@@ -167,7 +167,7 @@ export default function ProjectSidebar({ project, isOpen, onClose, onUpdate }) {
             <div className="mt-auto space-y-3">
               <button
                 onClick={() => onUpdate(project._id, { status: "shipped" })}
-                className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-3 px-4 rounded-xl hover:from-green-600 hover:to-emerald-700 transition-all shadow-md flex items-center justify-center"
+                className="w-full bg-linear-to-r from-green-500 to-emerald-600 text-white py-3 px-4 rounded-xl hover:from-green-600 hover:to-emerald-700 transition-all shadow-md flex items-center justify-center"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
