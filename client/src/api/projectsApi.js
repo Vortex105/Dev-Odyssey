@@ -1,6 +1,4 @@
-const BASE_URL = process.env.BACKEND_URL
-	? `${process.env.BACKEND_URL}/api/projects`
-	: 'http://localhost:5000/api/projects';
+const BASE_URL = process.env.BACKEND_URL;
 
 // Helper function to get the token from localStorage
 function getAuthToken() {
