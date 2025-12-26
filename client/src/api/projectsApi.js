@@ -1,4 +1,6 @@
-const BASE_URL = process.env.BACKEND_URL;
+const BASE_URL = `${
+	import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'
+}/api/projects`;
 
 // Helper function to get the token from localStorage
 function getAuthToken() {

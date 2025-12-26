@@ -36,7 +36,7 @@ app.use(limiter);
 // CORS configuration - restrict to frontend domain in production
 app.use(
 	cors({
-		origin: 'https://devodyssey.onrender.com',
+		origin: process.env.FRONTEND_URL || 'http://localhost:5173',
 		credentials: true,
 		optionsSuccessStatus: 200,
 	})

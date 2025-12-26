@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
   );
   const [loading, setLoading] = useState(true);
 
-  const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
   useEffect(() => {
     // Check if user is logged in on initial load
