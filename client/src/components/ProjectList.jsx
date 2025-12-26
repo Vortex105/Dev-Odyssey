@@ -44,95 +44,49 @@ export default function ProjectList({ projects, onDelete, onUpdate, onSelect }) 
 
   return (
     <motion.ul
-      className="space-y-4"
-      variants={listVariants}
-      initial="hidden"
-      animate="visible"
-    >
-      <AnimatePresence>
-        {projects.map((project) => (
-          <motion.li
-            key={project._id}
-            variants={itemVariants}
-            className="flex items-center justify-between p-5 bg-white rounded-xl border border-gray-100 
-                       hover:shadow-lg hover:border-gray-200 hover:-translate-y transition-all"
-          >
-            {/* Left: clickable area */}
-            <div
-              className="flex items-center gap-4 cursor-pointer group"
-              onClick={() => onSelect(project)}
-            >
-              <GitHubAvatar repoUrl={project.repoUrl} />
+  className="space-y-4"
+  variants={listVariants}
+  initial="hidden"
+  animate="visible"
+>
+  <AnimatePresence>
+    {projects.map((project) => (
+      <motion.li
+        key={project._id}
+        variants={itemVariants}
+        className="flex flex-col sm:flex-row sm:items-center sm:justify-between 
+                   gap-4 p-5 bg-white rounded-xl border border-gray-100 
+                   hover:shadow-lg hover:border-gray-200 transition-all"
+      >
+        {/* Left: clickable area */}
+        <div
+          className="flex items-start sm:items-center gap-4 cursor-pointer group flex-1"
+          onClick={() => onSelect(project)}
+        >
+          <GitHubAvatar repoUrl={project.repoUrl} />
 
-              <div className="flex flex-col items-start">
-                <div className="p-1 border border-gray-400 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
-                   <div className="flex items-center gap-1 ">
-                  <span className="font-semibold text-gray-800 transition capitalize">
-                    {project.title}
-                  </span>
-                </div>
-
-                <span className="text-xs text-gray-400">Click to view details</span>
-               </div>
-
-                {project.repoUrl && (
-                  <a
-                    href={project.repoUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-blue-600 hover:text-blue-800 text-sm mt-1 inline-flex items-center"
-                  >
-                    View GitHub Repo
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-3 w-3 ml-1"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M14 4h6m0 0v6m0-6L10 14"
-                      />
-                    </svg>
-                  </a>
-                )}
-              </div>
+          <div className="flex flex-col items-start gap-1">
+            <div className="p-2 border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
+              <span className="font-semibold text-gray-800 capitalize block">
+                {project.title}
+              </span>
+              <span className="text-xs text-gray-400">
+                Click to view details
+              </span>
             </div>
 
-            {/* Right: controls */}
-            <div className="flex items-center gap-4">
-              <select
-                value={project.status}
-                onChange={(e) =>
-                  onUpdate(project._id, { status: e.target.value })
-                }
-                className={`text-sm px-3 py-1.5 rounded-full capitalize font-medium focus:outline-none focus:ring-2 focus:ring-blue-300 transition ${
-                  project.status === "active"
-                    ? "bg-blue-100 text-blue-700 border border-blue-400"
-                    : project.status === "paused"
-                    ? "bg-yellow-100 text-yellow-700 border border-yellow-400"
-                    : project.status === "abandoned"
-                    ? "bg-red-100 text-red-700 border border-red-400"
-                    : "bg-green-100 text-green-700 border border-green-400"
-                }`}
+            {project.repoUrl && (
+              <a
+                href={project.repoUrl}
+                target="_blank"
+                rel="noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="text-blue-600 hover:text-blue-800 text-sm inline-flex items-center"
               >
-                <option value="active">Active</option>
-                <option value="paused">Paused</option>
-                <option value="abandoned">Abandoned</option>
-                <option value="shipped">Shipped</option>
-              </select>
-
-              <button
-                onClick={() => onDelete(project._id)}
-                className="text-red-500 hover:text-red-700 active:scale-95 transition"
-              >
+                View GitHub Repo
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
+                  className="h-3 w-3 ml-1"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -141,14 +95,62 @@ export default function ProjectList({ projects, onDelete, onUpdate, onSelect }) 
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6"
+                    d="M14 4h6m0 0v6m0-6L10 14"
                   />
                 </svg>
-              </button>
-            </div>
-          </motion.li>
-        ))}
-      </AnimatePresence>
-    </motion.ul>
+              </a>
+            )}
+          </div>
+        </div>
+
+        {/* Right: controls */}
+        <div className="flex flex-row sm:flex-col md:flex-row items-center gap-3 sm:gap-4 self-end sm:self-auto">
+          <select
+            value={project.status}
+            onChange={(e) =>
+              onUpdate(project._id, { status: e.target.value })
+            }
+            className={`text-sm px-3 py-1.5 rounded-full capitalize font-medium 
+              focus:outline-none focus:ring-2 focus:ring-blue-300 transition ${
+                project.status === "active"
+                  ? "bg-blue-100 text-blue-700 border border-blue-400"
+                  : project.status === "paused"
+                  ? "bg-yellow-100 text-yellow-700 border border-yellow-400"
+                  : project.status === "abandoned"
+                  ? "bg-red-100 text-red-700 border border-red-400"
+                  : "bg-green-100 text-green-700 border border-green-400"
+              }`}
+          >
+            <option value="active">Active</option>
+            <option value="paused">Paused</option>
+            <option value="abandoned">Abandoned</option>
+            <option value="shipped">Shipped</option>
+          </select>
+
+          <button
+            onClick={() => onDelete(project._id)}
+            className="text-red-500 hover:text-red-700 active:scale-95 transition"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6"
+              />
+            </svg>
+          </button>
+        </div>
+      </motion.li>
+    ))}
+  </AnimatePresence>
+</motion.ul>
+
   );
 }
