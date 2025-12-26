@@ -5,7 +5,6 @@ import React, {
   useEffect,
 } from 'react';
 
-dotenv.config();
 
 const AuthContext = createContext();
 
