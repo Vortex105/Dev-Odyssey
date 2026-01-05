@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import GitHubAvatar from "./GitHubAvatar";
 
@@ -6,87 +6,127 @@ const listVariants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.08,
     },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+  hidden: { opacity: 0, y: 16 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.25, ease: "easeOut" },
+  },
+  exit: {
+    opacity: 0,
+    y: -10,
+    transition: { duration: 0.2 },
+  },
 };
 
-export default function ProjectList({ projects, onDelete, onUpdate, onSelect }) {
-  if (projects.length === 0) {
+const statusStyles = {
+  active: "text-blue-600",
+  paused: "text-yellow-600",
+  abandoned: "text-red-600",
+  shipped: "text-green-600",
+};
+
+export default function ProjectList({ projects, onDelete, onSelect }) {
+  const [deletingId, setDeletingId] = useState(null);
+
+  const handleDelete = async (e, id) => {
+    e.stopPropagation();
+    setDeletingId(id);
+    await onDelete(id);
+    setDeletingId(null);
+  };
+
+  if (!projects.length) {
     return (
-      <div className="text-center py-10">
-        <div className="inline-block p-4 bg-gray-100 rounded-full mb-4">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-12 w-12 text-gray-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2"
-            />
-          </svg>
-        </div>
-        <p className="text-gray-600 text-lg">No projects yet</p>
-        <p className="text-gray-500 mt-1">Start your dev odyssey </p>
+      <div className="text-center py-12 text-gray-500">
+        No projects yet. Go build something 🔥
       </div>
     );
   }
 
   return (
-    <motion.ul
-  className="space-y-4"
-  variants={listVariants}
-  initial="hidden"
-  animate="visible"
->
-  <AnimatePresence>
-    {projects.map((project) => (
-      <motion.li
-        key={project._id}
-        variants={itemVariants}
-        className="flex flex-col sm:flex-row sm:items-center sm:justify-between 
-                   gap-4 p-5 bg-white rounded-xl border border-gray-100 
-                   hover:shadow-lg hover:border-gray-200 transition-all"
+    <AnimatePresence mode="popLayout">
+      <motion.ul
+        layout
+        className="space-y-4"
+        variants={listVariants}
+        initial="hidden"
+        animate="visible"
       >
-        {/* Left: clickable area */}
-        <div
-          className="flex items-start sm:items-center gap-4 cursor-pointer group flex-1"
-          onClick={() => onSelect(project)}
-        >
-          <GitHubAvatar repoUrl={project.repoUrl} />
+        {projects.map((project) => (
+          <motion.li
+            key={project._id}
+            layout
+            variants={itemVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            onClick={() => onSelect(project)}
+            className="
+              cursor-pointer
+              p-5 bg-white rounded-xl border border-gray-100
+              hover:border-gray-200 hover:shadow-md
+              transition-all
+              flex items-center justify-between gap-4
+            "
+          >
+            {/* Left */}
+            <div className="flex items-center gap-4">
+              <GitHubAvatar repoUrl={project.repoUrl} />
 
-          <div className="flex flex-col items-start gap-1">
-            <div className="p-2 border border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
-              <span className="font-semibold text-gray-800 capitalize block">
-                {project.title}
-              </span>
-              <span className="text-xs text-gray-400">
-                Click to view details
-              </span>
+              <div className="flex flex-col">
+                <h3 className="font-semibold text-gray-800 capitalize">
+                  {project.title}
+                </h3>
+                <span
+                  className={`text-sm font-medium capitalize ${statusStyles[project.status]}`}
+                >
+                  {project.status}
+                </span>
+              </div>
             </div>
 
-            {project.repoUrl && (
-              <a
-                href={project.repoUrl}
-                target="_blank"
-                rel="noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                className="text-blue-600 hover:text-blue-800 text-sm inline-flex items-center"
-              >
-                View GitHub Repo
+            {/* Delete */}
+            <button
+              onClick={(e) => handleDelete(e, project._id)}
+              disabled={deletingId === project._id}
+              className="
+                text-red-500 hover:text-red-700
+                disabled:opacity-60
+                active:scale-95
+                transition
+              "
+            >
+              {deletingId === project._id ? (
+                <svg
+                  className="h-5 w-5 animate-spin"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                  />
+                </svg>
+              ) : (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-3 w-3 ml-1"
+                  className="h-5 w-5"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -95,62 +135,14 @@ export default function ProjectList({ projects, onDelete, onUpdate, onSelect }) 
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M14 4h6m0 0v6m0-6L10 14"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6"
                   />
                 </svg>
-              </a>
-            )}
-          </div>
-        </div>
-
-        {/* Right: controls */}
-        <div className="flex flex-row sm:flex-col md:flex-row items-center gap-3 sm:gap-4 self-end sm:self-auto">
-          <select
-            value={project.status}
-            onChange={(e) =>
-              onUpdate(project._id, { status: e.target.value })
-            }
-            className={`text-sm px-3 py-1.5 rounded-full capitalize font-medium 
-              focus:outline-none focus:ring-2 focus:ring-blue-300 transition ${
-                project.status === "active"
-                  ? "bg-blue-100 text-blue-700 border border-blue-400"
-                  : project.status === "paused"
-                  ? "bg-yellow-100 text-yellow-700 border border-yellow-400"
-                  : project.status === "abandoned"
-                  ? "bg-red-100 text-red-700 border border-red-400"
-                  : "bg-green-100 text-green-700 border border-green-400"
-              }`}
-          >
-            <option value="active">Active</option>
-            <option value="paused">Paused</option>
-            <option value="abandoned">Abandoned</option>
-            <option value="shipped">Shipped</option>
-          </select>
-
-          <button
-            onClick={() => onDelete(project._id)}
-            className="text-red-500 hover:text-red-700 active:scale-95 transition"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6"
-              />
-            </svg>
-          </button>
-        </div>
-      </motion.li>
-    ))}
-  </AnimatePresence>
-</motion.ul>
-
+              )}
+            </button>
+          </motion.li>
+        ))}
+      </motion.ul>
+    </AnimatePresence>
   );
 }

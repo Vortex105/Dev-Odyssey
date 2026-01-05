@@ -15,7 +15,7 @@ function ProtectedRoute({ children }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="min-h-screen min-w-7xl flex items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600 mx-auto"></div>
           <p className="mt-4 text-gray-600 font-medium">Loading your dashboard...</p>
@@ -33,7 +33,7 @@ function PublicRoute({ children }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="min-h-screen min-w-full flex items-center justify-center bg-linear-to-br from-blue-50 to-indigo-100">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600 mx-auto"></div>
           <p className="mt-4 text-gray-600 font-medium">Loading...</p>
@@ -61,10 +61,9 @@ function AppContent() {
 
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+      <div className="min-h-screen bg-linear-to-b from-blue-50 to-gray-100">
         <Navbar />
-        <div className="container mx-auto py-8 px-4">
-          <div className="w-full lg:max-w-4xl mx-auto">
+        <div className="lg:max-w-7xl mx-auto py-8 px-4">
             <Routes>
               <Route path="/" element={
                 <ProtectedRoute>
@@ -83,7 +82,7 @@ function AppContent() {
               } />
               <Route path="*" element={<NotFound />} />
             </Routes>
-          </div>
+          
         </div>
       </div>
     </BrowserRouter>

@@ -32,12 +32,12 @@ const ProjectCard = ({ project }) => {
         transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 2 }}
         className={`px-3 py-1.5 rounded-full text-xs font-semibold capitalize ${
           project.status === "active"
-            ? "bg-[#dbeafe] text-[#1d4ed8] border border-[#3b82f6]"
+            ? "bg-status-active text-status-active-text border border-[#3b82f6]"
             : project.status === "paused"
-            ? "bg-[#fef9c3] text-[#854d0e] border border-[#f59e0b]"
+            ? "bg-status-paused text-status-paused-text border border-status-paused-border"
             : project.status === "abandoned"
-            ? "bg-[#fee2e2] text-[#b91c1c] border border-[#ef4444]"
-            : "bg-[#dcfce7] text-[#166534] border border-[#22c55e]"
+            ? "bg-status-abandoned text-status-abandoned-text border border-status-abandoned-border"
+            : "bg-status-shipped text-status-shipped-text border border-status-shipped-border"
         }`}
       >
         {project.status}
